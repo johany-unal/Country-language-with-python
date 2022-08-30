@@ -3,9 +3,54 @@ import pandas as pd
 import requests
 
 
+
+
+## Obtener respuesta de https://restcountries.com/ idioma del pais
+
+languaje= "portuguese"
+
+
+## Tomar el idioma y encriptarlo en SHA1
+def encriptar(languaje):
+    lang=languaje.encode()
+    lang_sha1 = hashlib.sha1(lang)
+    lang_sha1_hex = lang_sha1.hexdigest() # Convierte a formato hexadecimal
+    return(lang_sha1_hex)   # Retorna el lenguaje encriptado en SHA1.
+
+
+def generate_site():
+    site="https://restcountries.com/v2/name/"+country[number_country]
+    print(site)
+    return site
+
+def capture_info(site):
+    r=requests.get(site)
+    j=r.json()
+    #print(j)
+    j1=j[0]
+    
+    print(j1['region'])
+    region=j1['region']
+    print(j1['capital'])
+    capital=j1['capital']
+    j2=j1['languages'][0]
+    languaje= j2['name']
+    return 0
+
+    
+    
+
+## Lista de paises a investigar.
+country=("peru","colombia","peru")
+
+##generar sitio a consultar.
+
+site="https://restcountries.com/v2/name/"+country[2]
+
 #r=requests.get("https://restcountries.com/v3.1/all")
 #r=requests.get("https://restcountries.com/v3.1/lang/spa")
-r=requests.get("https://restcountries.com/v2/name/peru")
+#r=requests.get("https://restcountries.com/v2/name/peru")
+r=requests.get(site)
 
 j=r.json()
 #print(j)
@@ -16,12 +61,13 @@ print(j1['capital'])
 j2=j1['languages'][0]
 
 print(j2['name'])
-
-
-
 r1=requests.get("https://restcountries.com/v2/region/americas")
 j_region=r1.json()
 print(j_region)
+
+
+
+
 
 
 # Convertir info en dicccionario
@@ -30,18 +76,12 @@ def country_info(region,city_name,lang_sha1_hex, time):
     return h
 
 
-## Obtener respuesta de https://restcountries.com/ idioma del pais
 
-languaje= "portuguese"
-lang=languaje.encode()
 
-## Tomar el idioma y encriptarlo en SHA1
-lang_sha1 = hashlib.sha1(lang)
-lang_sha1_hex = lang_sha1.hexdigest() # Convierte a formato hexadecimal
-#print(lang_sha1_hex)
+
+
+
 ## Calcular tiempos
-
-
 
 
 ## Create dataframe
