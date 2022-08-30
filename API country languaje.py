@@ -18,12 +18,13 @@ def encriptar(languaje):
     return(lang_sha1_hex)   # Retorna el lenguaje encriptado en SHA1.
 
 
-def generate_site():
+def generate_site(number_country):          # Se le ingresa un número de la lista de paises
     site="https://restcountries.com/v2/name/"+country[number_country]
     print(site)
-    return site
+    return site                             # Retorna el http que donde se debe capturar la informacion del pais
 
 def capture_info(site):
+    
     r=requests.get(site)
     j=r.json()
     #print(j)
@@ -35,13 +36,20 @@ def capture_info(site):
     capital=j1['capital']
     j2=j1['languages'][0]
     languaje= j2['name']
+
+    lang_encrip=encriptar(languaje) # Encriptar el lenguaje, llamano a la función
+    
     return 0
 
+def generate_dataframe():
+    
+    pass
+    #return 0
     
     
 
-## Lista de paises a investigar.
-country=("peru","colombia","peru")
+## Lista de paises a investigar. Es una varible general.
+country=("peru","colombia","ecuador")
 
 ##generar sitio a consultar.
 
