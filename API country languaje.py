@@ -77,7 +77,6 @@ df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos da
 
 while country_count<len(country):
     info=capture_info(country_count)
-    #info=["cali", "la eterna primavera", "espanol", 0.24]
     print(info)
     region=info[0]
     capital=info[1]
@@ -90,33 +89,22 @@ while country_count<len(country):
     df=df.append(new_fila,ignore_index=True)
 
     country_count +=1  # sumamos 1 al contador de country
-    print (df)
 
-"""
-new_fila={'Region': ["peru","colombia","ecuador","argentina","panama","peru"], 'City Name': ["peru","colombia","ecuador","argentina","panama","peru"], 'Language': ["peru","colombia","ecuador","argentina","panama","peru"],'Time': [1,89,87,65,54,12]}
-print(new_fila)
 
-#df=df.append(new_fila,ignore_index=True)
-df=pd.DataFrame(new_fila)
-print(df)
-"""
-
-## Calcular tiempos
-
+print (df) # imprimimos el dataframe en consola
 
 
 ## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
-resume=df['Time'].describe()
-
-#print(resume)
 
 minimum=df['Time'].min()
 maximum=df['Time'].max()
 mean=df['Time'].mean()
 total=df['Time'].sum()
-print(minimum)
-print(df['Time'].max())
-print(total)
+print("el tiempo mínimo de construción de una fila fue "+ str(minimum) + " segundos")
+print("el tiempo mínimo de construción de una fila fue "+ str(df['Time'].max()) +" segundos")
+print("el tiempo promedio de construción de una fila fue "+ str(mean) + " segundos")
+print("el tiempo total de construción del dataframe fue "+ str(total) + " segundos")
+
 
 ## Guardar en sqlite
 
@@ -136,8 +124,9 @@ conn.close()
 
 data = df.to_json(orient = 'columns')
 
-print(data)
-with open('data.json', 'w') as file:
+print(data)     # visualizamos la tabla en formato json
+
+with open('data.json', 'w') as file:  #guardamos la tabla en formato json
     json.dump(data, file, indent=4)
 
 
