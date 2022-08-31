@@ -10,11 +10,6 @@ df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos da
 
 
 
-## Obtener respuesta de https://restcountries.com/ idioma del pais
-
-languaje= "portuguese"
-
-
 ## Tomar el idioma y encriptarlo en SHA1
 def encriptar(languaje):
     lang=languaje.encode()
@@ -28,7 +23,10 @@ def generate_site(number_country):          # Se le ingresa un número de la lis
     print(site)
     return site                             # Retorna el http que donde se debe capturar la informacion del pais
 
-def capture_info(site):
+def capture_info(number_country):
+    start = time.process_time()
+    
+    site=generate_site(number_country) ##generar sitio a consultar.
     
     r=requests.get(site)
     j=r.json()
@@ -41,33 +39,41 @@ def capture_info(site):
     capital=j1['capital']
     j2=j1['languages'][0]
     language= j2['name']
+    lang_encrip=encriptar(language) # Encriptar el lenguaje, llamano a la función
 
-    lang_encrip=encriptar(languaje) # Encriptar el lenguaje, llamano a la función
+    end = time.process_time()
+    time_used=end - start           # Calculamos el tiempo empleado en armar la fila 
+
+    info=[region, capital,lang_encrip,time_used] # añadimos la info a una lista
+
+    return info
+    
+    
     
     return 0
 
-def complete_dataframe(number_country):
-    df_new=pd.DataFrame({'Region': [25, 45], 'City Name': [25,5], 'Language': [45,"camaaron"],'Time': [2, 0]}, index=[number_country,number_country+1])
+def complete_dataframe(number_country,df,region, capital,lang_encrip,time_used):  # Llenar el Dataframe, añadiebndo una nueva fila.
+    df_new=pd.DataFrame({'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}, index=number_country) # Convertir info en dicccionario
 
     df=pd.concat([df,df_new],sort=False)
     
-    pass
-    #return 0
+    
+    return df
     
     
-start = time.process_time()
+#start = time.process_time()
 
 ## Lista de paises a investigar. Es una varible general.
-country=("peru","colombia","ecuador")
+#country=("peru","colombia","ecuador")
 
 ##generar sitio a consultar.
 
-site="https://restcountries.com/v2/name/"+country[2]
+#site="https://restcountries.com/v2/name/"+country[2]
 
 #r=requests.get("https://restcountries.com/v3.1/all")
 #r=requests.get("https://restcountries.com/v3.1/lang/spa")
-#r=requests.get("https://restcountries.com/v2/name/peru")
-r=requests.get(site)
+r=requests.get("https://restcountries.com/v2/name/peru")
+#r=requests.get(site)
 
 j=r.json()
 #print(j)
@@ -78,19 +84,11 @@ print(j1['capital'])
 j2=j1['languages'][0]
 
 print(j2['name'])
-r1=requests.get("https://restcountries.com/v2/region/europe")
-j_region=r1.json()
-print(j_region)
+#r1=requests.get("https://restcountries.com/v2/region/europe")
+#j_region=r1.json()
+#print(j_region)
 
-
-
-end = time.process_time()
-
-time_used=end - start
-
-print(time_used)
-
-lang_sha1_hex=12
+#lang_sha1_hex=12
 
 # Convertir info en dicccionario
 def country_info(region,city_name,lang_sha1_hex, time):
@@ -109,23 +107,23 @@ def country_info(region,city_name,lang_sha1_hex, time):
 #print(df)
 # Llenar el Dataframe
 
-df_new=pd.DataFrame({'Region': [2, 4], 'City Name': [2, 0], 'Language': lang_sha1_hex,'Time': [2, 0]}, index=['falcon', 'dog'])
+#df_new=pd.DataFrame({'Region': [2, 4], 'City Name': [2, 0], 'Language': lang_sha1_hex,'Time': [2, 0]}, index=['falcon', 'dog'])
 
 
 
-df_new2=pd.DataFrame({'Region': [56,3], 'City Name': [26,98], 'Language': [322, 50],'Time': [32, 40]}, index=['falcon', 'dog'])
+#df_new2=pd.DataFrame({'Region': [56,3], 'City Name': [26,98], 'Language': [322, 50],'Time': [32, 40]}, index=['falcon', 'dog'])
 
-df_new3=pd.DataFrame(country_info("Egipto","El Cairo","gerf563t343",0.345), index=['falcon', 'dog'])
+#df_new3=pd.DataFrame(country_info("Egipto","El Cairo","gerf563t343",0.345), index=['falcon', 'dog'])
 
-df=pd.concat([df,df_new],sort=False)
+#df=pd.concat([df,df_new],sort=False)
 
-df=pd.concat([df,df_new2],sort=False)
+#df=pd.concat([df,df_new2],sort=False)
 
-df=pd.concat([df,df_new3],ignore_index=True)
+#df=pd.concat([df,df_new3],ignore_index=True)
 
-complete_dataframe(4)
+#complete_dataframe(4)
 
-print(df)
+#print(df)
 ## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
 
 
@@ -135,4 +133,74 @@ print(df)
 
 
 ## Generar  Json con la tabla y guardar en data.json
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Lista de paises a investigar. Es una varible general.
+country=("peru","colombia","ecuador")
+country_count=0     # variable cuenta la cantidad de paises consultados
+
+## Create dataframe
+df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos dataframe vacio
+
+
+## CREAR CADA REGISTRO DE LA TABLA (se repite cada registro)
+
+
+info=capture_info(country_count)
+print(info)
+country_count +=1  # sumamos 1 al contador de country
+
+
+
+## Calcular tiempos
+
+
+
+## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
+## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
+## Guardar en sqlite
+## Generar  Json con la tabla y guardar en data.json
+
+
+
+
+
+
 
