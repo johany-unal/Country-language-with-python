@@ -71,9 +71,22 @@ df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos da
 
 
 info=capture_info(country_count)
+#info=["cali", "la eterna primavera", "espanol", 0.24]
 print(info)
-country_count +=1  # sumamos 1 al contador de country
+region=info[0]
+capital=info[1]
+lang_encrip=info[2]
+time_used=info[3]
 
+new_fila={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
+new_fila1={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
+new_fila2={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
+print(new_fila)
+
+df=df.append(new_fila,ignore_index=True)
+
+country_count +=1  # sumamos 1 al contador de country
+print (df)
 
 
 ## Calcular tiempos
@@ -81,7 +94,16 @@ country_count +=1  # sumamos 1 al contador de country
 
 
 ## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
-## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
+resume=df['Time'].describe()
+
+#print(resume)
+
+minimum=df['Time'].describe().min
+maximum=df['Time'].describe().max
+mean=df['Time'].describe().mean
+count=df['Time'].describe().count
+print(minimum)
+
 ## Guardar en sqlite
 ## Generar  Json con la tabla y guardar en data.json
 
