@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 import time
 import numpy as np
+import sqlite3
 
 ## Create dataframe
 
@@ -104,21 +105,33 @@ resume=df['Time'].describe()
 
 #print(resume)
 
-minimum=df['Time'].describe().min
-maximum=df['Time'].describe().max
-mean=df['Time'].describe().mean
-count=df['Time'].describe().count
+minimum=df['Time'].min()
+maximum=df['Time'].max()
+mean=df['Time'].mean()
 total=df['Time'].sum()
 print(minimum)
+print(df['Time'].max())
 print(total)
 
 ## Guardar en sqlite
+
+conn=sqlite3.connect("mydb.db")
+cursor=conn.cursor()
+df.to_sql("country_information",conn,if_exists="replace")
+cursor.execute("SELECT * FROM country_information").fetchall()
+   
+conn.close()
+
+
+
 
 ## Generar  Json con la tabla y guardar en data.json
 
 
 
+data = df.to_json(orient = 'columns')
 
+print(data)
 
 
 
