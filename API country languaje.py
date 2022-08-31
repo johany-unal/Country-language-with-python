@@ -2,6 +2,7 @@ import hashlib
 import pandas as pd
 import requests
 import time
+import numpy as np
 
 ## Create dataframe
 
@@ -59,7 +60,7 @@ def complete_dataframe(number_country,df,region, capital,lang_encrip,time_used):
  
 
 ## Lista de paises a investigar. Es una varible general.
-country=("peru","colombia","ecuador")
+country=("peru","colombia","ecuador","argentina","panama","peru")
 #print(country)
 country_count=0     # variable cuenta la cantidad de paises consultados
 
@@ -69,26 +70,31 @@ df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos da
 
 ## CREAR CADA REGISTRO DE LA TABLA (se repite cada registro)
 
+"""
+while country_count<3:
+    info=capture_info(country_count)
+    #info=["cali", "la eterna primavera", "espanol", 0.24]
+    print(info)
+    region=info[0]
+    capital=info[1]
+    lang_encrip=info[2]
+    time_used=info[3]
 
-info=capture_info(country_count)
-#info=["cali", "la eterna primavera", "espanol", 0.24]
-print(info)
-region=info[0]
-capital=info[1]
-lang_encrip=info[2]
-time_used=info[3]
+    new_fila={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
+    print(new_fila)
 
-new_fila={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
-new_fila1={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
-new_fila2={'Region': region, 'City Name': capital, 'Language': lang_encrip,'Time': time_used}
+    df=df.append(new_fila,ignore_index=True)
+
+    country_count +=1  # sumamos 1 al contador de country
+    print (df)
+
+"""
+new_fila={'Region': ["peru","colombia","ecuador","argentina","panama","peru"], 'City Name': ["peru","colombia","ecuador","argentina","panama","peru"], 'Language': ["peru","colombia","ecuador","argentina","panama","peru"],'Time': [1,89,87,65,54,12]}
 print(new_fila)
 
-df=df.append(new_fila,ignore_index=True)
-
-country_count +=1  # sumamos 1 al contador de country
-print (df)
-
-
+#df=df.append(new_fila,ignore_index=True)
+df=pd.DataFrame(new_fila)
+print(df)
 ## Calcular tiempos
 
 
@@ -102,9 +108,12 @@ minimum=df['Time'].describe().min
 maximum=df['Time'].describe().max
 mean=df['Time'].describe().mean
 count=df['Time'].describe().count
+total=df['Time'].sum()
 print(minimum)
+print(total)
 
 ## Guardar en sqlite
+
 ## Generar  Json con la tabla y guardar en data.json
 
 
