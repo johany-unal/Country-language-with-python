@@ -3,6 +3,11 @@ import pandas as pd
 import requests
 import time
 
+## Create dataframe
+
+df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"]) #Creamos dataframe vacio
+
+
 
 
 ## Obtener respuesta de https://restcountries.com/ idioma del pais
@@ -35,18 +40,22 @@ def capture_info(site):
     print(j1['capital'])
     capital=j1['capital']
     j2=j1['languages'][0]
-    languaje= j2['name']
+    language= j2['name']
 
     lang_encrip=encriptar(languaje) # Encriptar el lenguaje, llamano a la función
     
     return 0
 
-def generate_dataframe():
+def complete_dataframe(number_country):
+    df_new=pd.DataFrame({'Region': [25, 45], 'City Name': [25,5], 'Language': [45,"camaaron"],'Time': [2, 0]}, index=[number_country,number_country+1])
+
+    df=pd.concat([df,df_new],sort=False)
     
     pass
     #return 0
     
     
+start = time.process_time()
 
 ## Lista de paises a investigar. Es una varible general.
 country=("peru","colombia","ecuador")
@@ -69,14 +78,19 @@ print(j1['capital'])
 j2=j1['languages'][0]
 
 print(j2['name'])
-r1=requests.get("https://restcountries.com/v2/region/americas")
+r1=requests.get("https://restcountries.com/v2/region/europe")
 j_region=r1.json()
 print(j_region)
 
 
 
+end = time.process_time()
 
+time_used=end - start
 
+print(time_used)
+
+lang_sha1_hex=12
 
 # Convertir info en dicccionario
 def country_info(region,city_name,lang_sha1_hex, time):
@@ -91,10 +105,6 @@ def country_info(region,city_name,lang_sha1_hex, time):
 
 ## Calcular tiempos
 
-
-## Create dataframe
-
-df=pd.DataFrame(columns=["Region", "City Name", "Language", "Time"])
 
 #print(df)
 # Llenar el Dataframe
@@ -112,6 +122,8 @@ df=pd.concat([df,df_new],sort=False)
 df=pd.concat([df,df_new2],sort=False)
 
 df=pd.concat([df,df_new3],ignore_index=True)
+
+complete_dataframe(4)
 
 print(df)
 ## Calcular tiempo total, el tiempo promedio, el tiempo mínimo y el máximo que tardo
