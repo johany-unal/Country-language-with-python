@@ -4,6 +4,7 @@ import requests
 import time
 import numpy as np
 import sqlite3
+import json
 
 ## Create dataframe
 
@@ -132,6 +133,8 @@ conn.close()
 data = df.to_json(orient = 'columns')
 
 print(data)
+with open('data.json', 'w') as file:
+    json.dump(data, file, indent=4)
 
 
 
