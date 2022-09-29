@@ -26,7 +26,7 @@ def generate_site(number_country):          # Se le ingresa un número de la lis
     print(site)
     return site                             # Retorna el http que donde se debe capturar la informacion del pais
 
-def capture_info(number_country):
+def capture_info(number_country): # capruta la info deseada
     start = time.process_time()
     
     site=generate_site(number_country) ##generar sitio a consultar.
